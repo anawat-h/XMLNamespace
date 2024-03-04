@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <textarea id="input" rows="20" cols="100"></textarea>
+    </div>
+    <div>
+        <button id="button">Process</button>
+    </div>
+    <div>
+        <pre id="output"></pre>
+    </div>
+    <script type="module">
+        import xml2js from "https://esm.sh/xml2js";
+
+        const input = document.getElementById('input')
+        const button = document.getElementById('button')
+        const output = document.getElementById('output')
+
+        var parser = new xml2js.Parser({ xmlns: true })
+
+        input.value = `<note xmlns="http://aaa.com" attribute1="attributeValue">
+    <title>Happy</title>
+    <todo>Work</todo>
+    <todo>Play</todo>
+</note>`
+        process()
+
+        button.addEventListener('click', process)
+
+        async function process(){
+            const xml = await parser.parseStringPromise(input.value)
+            output.innerText = JSON.stringify(xml, null, 4)
+        }
+    </script>
+</body>
+</html>
